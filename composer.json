@@ -7,7 +7,12 @@
 			"email": "neo.hornberger@gmx.de"
 		}
 	],
-	"require": {},
+	"require": {
+		"php": "^8",
+		"ext-mysqli": "*",
+		"latte/latte": "^2.10",
+		"twbs/bootstrap": "^5.1"
+	},
 	"autoload": {
 		"classmap": [
 			"src/"
