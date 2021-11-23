@@ -13,12 +13,9 @@ use TournamentSystem\Config\Config;
 use TournamentSystem\Controller\Admin\DashboardController;
 use TournamentSystem\Controller\Admin\LoginController;
 use TournamentSystem\Controller\Admin\LogoutController;
+use TournamentSystem\Controller\Admin\ModulesController;
 use TournamentSystem\Controller\Admin\UpdateController;
-use TournamentSystem\Controller\ClubController;
-use TournamentSystem\Controller\CoachController;
 use TournamentSystem\Controller\Controller;
-use TournamentSystem\Controller\PlayerController;
-use TournamentSystem\Controller\TournamentController;
 use TournamentSystem\View\DebugView;
 use TournamentSystem\View\View;
 
@@ -48,20 +45,33 @@ class TournamentSystem {
 	
 	public function handle(): void {
 		$controller = null;
-		if(array_key_exists('type', $_REQUEST)) {
-			$controller = match ($_REQUEST['type']) {
-				'player' => new PlayerController(),
-				'coach' => new CoachController(),
-				'club' => new ClubController(),
-				'tournament' => new TournamentController(),
-				
-				'admin' => match ($_REQUEST['action']) {
+		if(array_key_exists('module', $_REQUEST)) {
+			$module = $_REQUEST['module'];
+			
+			if($module === 'admin') {
+				$controller = match ($_REQUEST['action']) {
 					'login' => new LoginController(),
 					'logout' => new LogoutController(),
 					'dashboard' => new DashboardController(),
-					'update' => new UpdateController()
+					'update' => new UpdateController(),
+					'modules' => new ModulesController(),
+				};
+			}else {
+				// TODO module controlling
+				$stmt = $this->DB->prepare('SELECT module FROM tournament_modules WHERE id=?');
+				$stmt->bind_param('s', $module);
+				$stmt->execute();
+				
+				if($result = $stmt->get_result()) {
+					if($module = $result->fetch_row()) {
+						$module = $module[0];
+						
+						require_once '\TournamentSystem\Module\\' . $module;
+					}
+					
+					$result->free();
 				}
-			};
+			}
 		}
 		
 		if($controller) {

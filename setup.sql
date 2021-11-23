@@ -25,9 +25,9 @@ CREATE TABLE tournament_person (
     PRIMARY KEY (id)
 );
 CREATE TABLE tournament_modules (
-    id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(16)  NOT NULL,
+    id     VARCHAR(32) NOT NULL,
+    module VARCHAR(16) NOT NULL,
 
     PRIMARY KEY (id),
-    UNIQUE (name)
+    UNIQUE (module)
 );
