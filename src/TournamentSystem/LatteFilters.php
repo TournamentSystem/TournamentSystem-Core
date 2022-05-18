@@ -5,7 +5,7 @@ namespace TournamentSystem;
 use DateInterval;
 use DateTimeInterface;
 use Latte\Attributes\TemplateFilter;
-use Latte\Runtime\Filters;
+use Latte\Essential\Filters;
 use TournamentSystem\View\View;
 
 class LatteFilters {
