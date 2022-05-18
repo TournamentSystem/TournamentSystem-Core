@@ -22,9 +22,10 @@ class Config {
 		self::set($config, 'Database', 'database', $this->database->database);
 		self::set($config, 'Database', 'port', $this->database->port);
 		self::set($config, 'Database', 'socket', $this->database->socket);
+		self::set($config, 'Database', 'prefix', $this->database->prefix);
 	}
 	
-	private static function set($ini, string $section, string $key, &$field) {
+	private static function set($ini, string $section, string $key, &$field): void {
 		$value = $ini[$section][$key];
 		
 		if(is_string($value)) {

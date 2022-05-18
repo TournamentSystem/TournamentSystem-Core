@@ -9,4 +9,5 @@ class DatabaseConfig {
 	public string $database = '';
 	public ?int $port = null;
 	public ?string $socket = null;
+	public ?string $prefix = 'tournament_';
 }
