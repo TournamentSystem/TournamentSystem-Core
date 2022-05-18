@@ -10,7 +10,7 @@
 	"require": {
 		"php": "^8",
 		"ext-mysqli": "*",
-		"latte/latte": "^2.11",
+		"latte/latte": "^3",
 		"twbs/bootstrap": "^5.1"
 	},
 	"autoload": {
