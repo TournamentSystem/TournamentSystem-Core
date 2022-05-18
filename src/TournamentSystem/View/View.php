@@ -3,7 +3,10 @@
 namespace TournamentSystem\View;
 
 use Latte\Engine;
+use Latte\RuntimeException;
+use ReflectionClass;
 use TournamentSystem\Config\Config;
+use TournamentSystem\LatteFilters;
 
 abstract class View {
 	public static Engine $latte;
@@ -18,7 +21,7 @@ abstract class View {
 	}
 	
 	protected final function renderView(?string $body = ''): void {
-		self::$latte->render('templates/base.latte', [
+		self::$latte->render(__DIR__ . '/../../../' . 'templates/base.latte', [
 			'title' => $this->title,
 			'head' => '',
 			'logo' => $this->getLogo(),
@@ -27,8 +30,34 @@ abstract class View {
 		]);
 	}
 	
-	protected final function template(string $name, object|array $params = []): string {
-		return self::$latte->renderToString("templates/$name", $params);
+	public function template(string $name, array $params = []): string {
+		$firstException = null;
+		
+		foreach([$this, self::class] as $context) {
+			try {
+				return self::getTemplate($context, $name, $params);
+			}catch(RuntimeException $e) {
+				if($firstException === null) {
+					$firstException = $e;
+				}
+			}
+		}
+		
+		throw $firstException;
+	}
+	
+	
+	public static function getTemplate(object|string $context, string $name, array $params = []): string {
+		$filters = new LatteFilters();
+		
+		foreach($params as $key => $value) {
+			$filters->$key = $value;
+		}
+		
+		$reflectContext = new ReflectionClass($context);
+		$levels = substr_count($reflectContext->getNamespaceName(), '\\') + 3;
+		
+		return self::$latte->renderToString(dirname($reflectContext->getFileName(), $levels) . "/templates/$name", $filters);
 	}
 	
 	public abstract function render(): void;

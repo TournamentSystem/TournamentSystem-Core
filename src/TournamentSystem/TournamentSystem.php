@@ -16,7 +16,6 @@ require_once 'utility.php';
 require_once 'session.php';
 
 use Latte\Engine;
-use Latte\Runtime\Filters;
 use TournamentSystem\Config\Config;
 use TournamentSystem\Controller\Admin\DashboardController;
 use TournamentSystem\Controller\Admin\InstallController;
@@ -49,9 +48,6 @@ class TournamentSystem {
 		
 		View::$config = $this->CONFIG;
 		View::$latte = new Engine();
-		View::$latte->addFilter('time', fn($time, $format = null) => Filters::date($time, $format ?? $this->CONFIG->general->time_format));
-		View::$latte->addFilter('date', fn($date, $format = null) => Filters::date($date, $format ?? $this->CONFIG->general->date_format));
-		View::$latte->addFilter('datetime', fn($datetime, $format = null) => Filters::date($datetime, $format ?? $this->CONFIG->general->datetime_format()));
 	}
 	
 	public function handle(): void {
