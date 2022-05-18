@@ -90,7 +90,7 @@ class TournamentSystem {
 				};
 			}else if($module !== 'none') {
 				$_TS['module'] = $module = Module::load($module) ?? $module;
-				$_TS['page'] = $page = explode('/', $_GET['_page']);
+				$_TS['page'] = $page = explode('/', $_GET['_page'] ?? null);
 				
 				if($module instanceof Module) {
 					$controller = $module->handle($page);
