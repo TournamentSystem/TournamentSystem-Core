@@ -3,6 +3,8 @@
 namespace TournamentSystem\Controller;
 
 use mysqli_stmt;
+use ReflectionException;
+use ReflectionMethod;
 use TournamentSystem\Database;
 use TournamentSystem\View\View;
 
@@ -67,15 +69,27 @@ abstract class Controller {
 	}
 	
 	public final function handleRequest(): void {
-		$methodFunc = $_SERVER['REQUEST_METHOD'];
+		$method = $_SERVER['REQUEST_METHOD'];
 		
-		if(!in_array($methodFunc, self::ALLOWED_METHODS)) {
-			header('Allow: ' . self::$allowedMethodsString, true, self::METHOD_NOT_ALLOWED);
+		if(!in_array($method, self::ALLOWED_METHODS)) {
+			header('Allow: ' . implode(', ', self::ALLOWED_METHODS), true, self::METHOD_NOT_ALLOWED);
 			exit;
 		}
 		
-		$methodFunc = strtolower($methodFunc);
-		http_response_code($this->$methodFunc());
+		$method = strtolower($method);
+		
+		try {
+			$reflectMethod = new ReflectionMethod($this::class, $method);
+			$attributes = $reflectMethod->getAttributes(LoginRequired::class);
+			
+			if(!empty($attributes) && !session_exists()) {
+				http_response_code(self::UNAUTHORIZED());
+				return;
+			}
+		}catch(ReflectionException) {
+		}
+		
+		http_response_code($this->$method());
 	}
 	
 	private function setHeader_Location(string $loc): void {
@@ -107,13 +121,4 @@ abstract class Controller {
 		header('WWW-Authenticate: Cookie realm="TournamentSystem" form-action="/admin/login/" cookie-name="' . session_name() . '"');
 		return self::UNAUTHORIZED;
 	}
-}
-
-
-for($i = 0; $i < count(Controller::ALLOWED_METHODS); $i++) {
-	if($i !== 0) {
-		Controller::$allowedMethodsString .= ', ';
-	}
-	
-	Controller::$allowedMethodsString .= Controller::ALLOWED_METHODS[$i];
 }
