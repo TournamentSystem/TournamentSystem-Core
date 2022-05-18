@@ -26,11 +26,23 @@ abstract class Controller {
 	
 	public static Database $db;
 	
-	protected mysqli_stmt $stmt;
+	/**
+	 * @var mysqli_stmt|mysqli_stmt[] $stmt
+	 */
+	protected mysqli_stmt|array $stmt;
 	
-	public function __construct(?string $query = null) {
+	/**
+	 * @param string|string[]|null $query
+	 */
+	public function __construct(string|array|null $query = null) {
 		if($query !== null) {
-			$this->stmt = self::$db->prepare($query);
+			if(is_array($query)) {
+				foreach($query as $q) {
+					$this->stmt[] = self::$db->prepare($q);
+				}
+			}else {
+				$this->stmt = self::$db->prepare($query);
+			}
 		}
 	}
 	
