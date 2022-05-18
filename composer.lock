@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a3c1fed6835076b5d7d48cac7b5316d",
+    "content-hash": "192c6e0bf1b74a610386f38bafb311ad",
     "packages": [
         {
             "name": "latte/latte",
-            "version": "v2.11.0",
+            "version": "v2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/latte.git",
-                "reference": "a815687bfadaf3af51ae99f92edb4ea310c43426"
+                "reference": "21316b42fb0a4e43df01f73c55d52bd531823fda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/latte/zipball/a815687bfadaf3af51ae99f92edb4ea310c43426",
-                "reference": "a815687bfadaf3af51ae99f92edb4ea310c43426",
+                "url": "https://api.github.com/repos/nette/latte/zipball/21316b42fb0a4e43df01f73c55d52bd531823fda",
+                "reference": "21316b42fb0a4e43df01f73c55d52bd531823fda",
                 "shasum": ""
             },
             "require": {
@@ -86,9 +86,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/latte/issues",
-                "source": "https://github.com/nette/latte/tree/v2.11.0"
+                "source": "https://github.com/nette/latte/tree/v2.11.1"
             },
-            "time": "2022-02-22T18:39:58+00:00"
+            "time": "2022-04-07T13:21:53+00:00"
         },
         {
             "name": "twbs/bootstrap",
