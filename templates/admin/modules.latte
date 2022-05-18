@@ -1,0 +1,90 @@
+{var int $labelCol = 3}
+{var int $col = 11 - $labelCol}
+
+<div class="row gy-3">
+	{foreach $modules as $module}
+		<div class="col-md-3">
+			{var string $name = $module->getName()}
+
+			<div class="card">
+				<div class="card-body">
+					<p class="card-title">{$name}</p>
+					<p class="card-text">{$module->getModule()}</p>
+				</div>
+				<div class="card-footer d-flex">
+					<a href="/{$name}/" class="btn btn-primary col-auto">Go to module</a>
+					<button class="btn btn-outline-danger col-auto ms-auto" type="button" data-bs-toggle="modal"
+							data-bs-target="#delete_module-{$name}">
+						Delete
+					</button>
+				</div>
+			</div>
+
+			<div id="delete_module-{$name}" class="modal fade" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<form class="modal-content" method="post">
+						<input type="hidden" name="action" value="delete"/>
+						<input type="hidden" name="name" value="{$name}">
+
+						<div class="modal-header bg-light">
+							<span class="modal-title fs-5">Delete module</span>
+							<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>Are you sure you want to delete module <strong>{$name}</strong>?</p>
+						</div>
+						<div class="modal-footer">
+							<button class="form-row btn btn-danger" type="submit" data-ts-btn-loading>Delete</button>
+							<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	{/foreach}
+
+	<div class="col-md-3">
+		<div class="card text-center h-100">
+			<button class="card-body btn text-muted fs-1" type="button" data-bs-toggle="modal"
+					data-bs-target="#add_module">
+				+
+			</button>
+		</div>
+
+		<div id="add_module" class="modal fade" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<form class="modal-content" method="post">
+					<input type="hidden" name="action" value="add"/>
+
+					<div class="modal-header bg-light">
+						<span class="modal-title fs-5">Add module</span>
+						<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group form-row">
+							<label class="col-{$labelCol} col-form-label" for="name">Name</label>
+							<input id="name" class="col-{$col}" type="text" name="name"/>
+						</div>
+						<div class="form-group form-row">
+							<label class="col-{$labelCol} col-form-label" for="module">Module</label>
+							<select id="module" class="col-{$col}" name="module">
+								<option selected disabled hidden></option>
+
+								{foreach ['Soccer'] as $module}
+									<option value="{$module}">{$module}</option>
+								{/foreach}
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="form-row btn btn-primary" type="submit" data-bs-dismiss="modal"
+								data-ts-btn-loading>
+							Add
+						</button>
+						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
