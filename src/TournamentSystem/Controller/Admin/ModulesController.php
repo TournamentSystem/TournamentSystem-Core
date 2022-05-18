@@ -4,6 +4,7 @@ namespace TournamentSystem\Controller\Admin;
 
 use TournamentSystem\Controller\Controller;
 use TournamentSystem\Controller\LoginRequired;
+use TournamentSystem\Module\Module;
 use TournamentSystem\View\Admin\ModulesView;
 
 class ModulesController extends Controller {
@@ -47,11 +48,11 @@ class ModulesController extends Controller {
 					$this->stmt[1]->bind_param('ss', $name, $_POST['module']);
 					$this->stmt[1]->execute();
 					
-					\TournamentSystem\Module\Module::load($name)->install();
+					Module::load($name)->install();
 					
 					return self::get();
 				case 'delete':
-					\TournamentSystem\Module\Module::load($name)->uninstall();
+					Module::load($name)->uninstall();
 					
 					$this->stmt[2]->bind_param('s', $name);
 					$this->stmt[2]->execute();

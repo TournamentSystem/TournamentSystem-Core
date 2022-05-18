@@ -19,10 +19,4 @@ class InstallController extends Controller {
 	protected function post(): int {
 		return parent::OK;
 	}
-	
-	private function install_module(string $module) {
-		if($module === 'core') {
-		
-		}
-	}
 }

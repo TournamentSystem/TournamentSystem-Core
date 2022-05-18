@@ -79,7 +79,7 @@ class TournamentSystem {
 				$_TS['action'] = $action = $_GET['_action'] ?? null;
 				
 				$controller = match ($action) {
-					null, 'dashboard' => new DashboardController(),
+					null, '', 'dashboard' => new DashboardController(),
 					'login' => new LoginController(),
 					'logout' => new LogoutController(),
 					'update' => new UpdateController(),
