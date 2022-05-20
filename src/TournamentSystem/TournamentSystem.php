@@ -23,7 +23,8 @@ use TournamentSystem\Controller\Admin\LoginController;
 use TournamentSystem\Controller\Admin\LogoutController;
 use TournamentSystem\Controller\Admin\ModulesController;
 use TournamentSystem\Controller\Admin\UpdateController;
-use TournamentSystem\Controller\Controller;
+use TournamentSystem\Database\Database;
+use TournamentSystem\Database\DbStatement;
 use TournamentSystem\Model\User;
 use TournamentSystem\Module\Module;
 use TournamentSystem\View\DebugView;
@@ -43,7 +44,7 @@ class TournamentSystem {
 	}
 	
 	private function initStaticVars(): void {
-		Controller::$db = $this->DB;
+		DbStatement::$db = $this->DB;
 		Module::$db = $this->DB;
 		
 		View::$config = $this->CONFIG;

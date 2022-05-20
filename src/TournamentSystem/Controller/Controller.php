@@ -2,10 +2,9 @@
 
 namespace TournamentSystem\Controller;
 
-use mysqli_stmt;
 use ReflectionException;
 use ReflectionMethod;
-use TournamentSystem\Database;
+use TournamentSystem\Database\DbStatement;
 use TournamentSystem\View\View;
 
 abstract class Controller {
@@ -26,25 +25,14 @@ abstract class Controller {
 	protected const METHOD_NOT_ALLOWED = 405;
 	protected const NOT_IMPLEMENTED = 501;
 	
-	public static Database $db;
-	
-	/**
-	 * @var mysqli_stmt|mysqli_stmt[] $stmt
-	 */
-	protected mysqli_stmt|array $stmt;
+	protected DbStatement $stmt;
 	
 	/**
 	 * @param string|string[]|null $query
 	 */
 	public function __construct(string|array|null $query = null) {
 		if($query !== null) {
-			if(is_array($query)) {
-				foreach($query as $q) {
-					$this->stmt[] = self::$db->prepare($q);
-				}
-			}else {
-				$this->stmt = self::$db->prepare($query);
-			}
+			$this->stmt = new DbStatement($query);
 		}
 	}
 	

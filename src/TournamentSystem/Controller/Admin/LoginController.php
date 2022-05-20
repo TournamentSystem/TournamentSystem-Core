@@ -24,10 +24,10 @@ class LoginController extends Controller {
 	protected function post(): int {
 		$username = $_POST['username'];
 		
-		$this->stmt->bind_param('s', $username);
-		$this->stmt->execute();
+		$this->stmt[0]->bind_param('s', $username);
+		$this->stmt[0]->execute();
 		
-		if($result = $this->stmt->get_result()) {
+		if($result = $this->stmt[0]->get_result()) {
 			if($hash = $result->fetch_row()) {
 				$hash = $hash[0];
 				

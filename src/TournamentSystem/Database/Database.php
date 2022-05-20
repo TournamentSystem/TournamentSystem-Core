@@ -1,6 +1,6 @@
 <?php
 
-namespace TournamentSystem;
+namespace TournamentSystem\Database;
 
 use mysqli;
 use TournamentSystem\Config\Config;

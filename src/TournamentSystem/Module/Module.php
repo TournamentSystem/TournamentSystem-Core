@@ -4,7 +4,7 @@ namespace TournamentSystem\Module;
 
 use ReflectionClass;
 use TournamentSystem\Controller\Controller;
-use TournamentSystem\Database;
+use TournamentSystem\Database\Database;
 
 abstract class Module {
 	public static Database $db;
