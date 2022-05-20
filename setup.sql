@@ -3,6 +3,7 @@ SET FOREIGN_KEY_CHECKS = FALSE;
 DROP TABLE IF EXISTS tournament_user;
 DROP TABLE IF EXISTS tournament_person;
 DROP TABLE IF EXISTS tournament_modules;
+DROP TABLE IF EXISTS tournament_permissions;
 
 SET FOREIGN_KEY_CHECKS = TRUE;
 
@@ -29,4 +30,11 @@ CREATE TABLE tournament_modules (
     module VARCHAR(16) NOT NULL,
 
     PRIMARY KEY (name)
+);
+CREATE TABLE tournament_permissions (
+    user       VARCHAR(32) NOT NULL,
+    permission VARCHAR(64) NOT NULL,
+
+    PRIMARY KEY (user, permission),
+    FOREIGN KEY (user) REFERENCES tournament_user (name) ON DELETE CASCADE
 );

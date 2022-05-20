@@ -25,6 +25,7 @@ use TournamentSystem\Controller\Admin\ModulesController;
 use TournamentSystem\Controller\Admin\UpdateController;
 use TournamentSystem\Database\Database;
 use TournamentSystem\Database\DbStatement;
+use TournamentSystem\Model\Permission;
 use TournamentSystem\Model\User;
 use TournamentSystem\Module\Module;
 use TournamentSystem\View\DebugView;
@@ -55,19 +56,37 @@ class TournamentSystem {
 		global $_TS;
 		
 		if(session_exists()) {
-			$stmt = $this->DB->prepare('SELECT * FROM tournament_user WHERE name=?');
-			$stmt->bind_param('s', $_SESSION['user']);
-			$stmt->execute();
+			$stmt = new DbStatement([
+				'SELECT * FROM tournament_user WHERE name=?',
+				'SELECT * FROM tournament_permissions WHERE user=?'
+			]);
 			
-			if($result = $stmt->get_result()) {
-				if($user = $result->fetch_assoc()) {
+			$user = $_SESSION['user'];
+			
+			$stmt[0]->bind_param('s', $user);
+			$stmt[1]->bind_param('s', $user);
+			$stmt[0]->execute();
+			
+			if($result0 = $stmt[0]->get_result()) {
+				$permissions = [];
+				
+				if($stmt[1]->execute() && $result1 = $stmt[1]->get_result()) {
+					foreach($result1->fetch_all(MYSQLI_ASSOC) as $perm) {
+						$permissions[] = new Permission($perm['permission']);
+					}
+					
+					$result1->free();
+				}
+				
+				if($user = $result0->fetch_assoc()) {
 					$_TS['user'] = new User(
 						$user['name'],
-						$user['password']
+						$user['password'],
+						$permissions
 					);
 				}
 				
-				$result->free();
+				$result0->free();
 			}
 		}
 		

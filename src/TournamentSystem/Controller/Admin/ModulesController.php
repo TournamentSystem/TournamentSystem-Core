@@ -41,10 +41,16 @@ class ModulesController extends Controller {
 	#[LoginRequired]
 	protected function post(): int {
 		if(array_key_exists('action', $_POST)) {
+			global $_TS;
+			
 			$name = $_POST['name'];
 			
 			switch($_POST['action']) {
 				case 'add':
+					if(!$_TS['user']->hasPermission(Permissions::MODULE_ADD)) {
+						return self::FORBIDDEN;
+					}
+					
 					$this->stmt[1]->bind_param('ss', $name, $_POST['module']);
 					$this->stmt[1]->execute();
 					
@@ -52,6 +58,10 @@ class ModulesController extends Controller {
 					
 					return self::get();
 				case 'delete':
+					if(!$_TS['user']->hasPermission(Permissions::MODULE_DELETE)) {
+						return self::FORBIDDEN;
+					}
+					
 					Module::load($name)->uninstall();
 					
 					$this->stmt[2]->bind_param('s', $name);

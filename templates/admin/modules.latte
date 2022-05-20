@@ -14,13 +14,14 @@
 				<div class="card-footer d-flex">
 					<a href="/{$name}/" class="btn btn-primary col-auto">Go to module</a>
 					<button class="btn btn-outline-danger col-auto ms-auto" type="button" data-bs-toggle="modal"
-							data-bs-target="#delete_module-{$name}">
+							data-bs-target="#delete_module-{$name}" n:if="$_TS['user']->hasPermission('admin.module.delete')">
 						Delete
 					</button>
 				</div>
 			</div>
 
-			<div id="delete_module-{$name}" class="modal fade" tabindex="-1" aria-hidden="true">
+			<div id="delete_module-{$name}" class="modal fade" tabindex="-1"
+				 aria-hidden="true" n:if="$_TS['user']->hasPermission('admin.module.delete')">
 				<div class="modal-dialog">
 					<form class="modal-content" method="post">
 						<input type="hidden" name="action" value="delete"/>
@@ -43,7 +44,7 @@
 		</div>
 	{/foreach}
 
-	<div class="col-md-3">
+	<div class="col-md-3" n:if="$_TS['user']->hasPermission('admin.module.add')">
 		<div class="card text-center h-100">
 			<button class="card-body btn text-muted fs-1" type="button" data-bs-toggle="modal"
 					data-bs-target="#add_module">

@@ -48,7 +48,10 @@ abstract class View {
 	
 	
 	public static function getTemplate(object|string $context, string $name, array $params = []): string {
+		global $_TS;
+		
 		$filters = new LatteFilters();
+		$filters->_TS = $_TS;
 		
 		foreach($params as $key => $value) {
 			$filters->$key = $value;

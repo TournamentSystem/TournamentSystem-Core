@@ -68,11 +68,26 @@ abstract class Controller {
 		
 		try {
 			$reflectMethod = new ReflectionMethod($this::class, $method);
-			$attributes = $reflectMethod->getAttributes(LoginRequired::class);
 			
-			if(!empty($attributes) && !session_exists()) {
+			$loginRequired = $reflectMethod->getAttributes(LoginRequired::class);
+			if(!empty($loginRequired) && !session_exists()) {
 				http_response_code(self::UNAUTHORIZED());
 				return;
+			}
+			
+			$permissionRequired = $reflectMethod->getAttributes(PermissionRequired::class);
+			if(!empty($permissionRequired)) {
+				if(!session_exists()) {
+					http_response_code(self::UNAUTHORIZED());
+					return;
+				}
+				
+				foreach($permissionRequired as $perm) {
+					if(!$perm->check()) {
+						http_response_code(self::FORBIDDEN);
+						return;
+					}
+				}
 			}
 		}catch(ReflectionException) {
 		}
