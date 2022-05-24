@@ -12,7 +12,6 @@ abstract class Controller {
 	 * @var string[]
 	 */
 	public const ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
-	public static string $allowedMethodsString = '';
 	
 	protected const OK = 200;
 	protected const NO_CONTENT = 204;
