@@ -14,9 +14,6 @@ function session_exists(): bool {
 	if($status === PHP_SESSION_DISABLED) {
 		return false;
 	}
-	if($status === PHP_SESSION_ACTIVE) {
-		return true;
-	}
 	if($status === PHP_SESSION_NONE && !session_start()) {
 		return false;
 	}
