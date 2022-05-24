@@ -9,14 +9,19 @@ function session_exists(): bool {
 	if(!isset($_COOKIE[session_name()])) {
 		return false;
 	}
-	if(session_status() === PHP_SESSION_ACTIVE) {
+	
+	$status = session_status();
+	if($status === PHP_SESSION_DISABLED) {
+		return false;
+	}
+	if($status === PHP_SESSION_ACTIVE) {
 		return true;
 	}
-	if(session_start()) {
-		return isset($_SESSION['user']);
+	if($status === PHP_SESSION_NONE && !session_start()) {
+		return false;
 	}
 	
-	return false;
+	return isset($_SESSION['user']);
 }
 
 function session_stop(): void {
