@@ -9,8 +9,11 @@ class DebugView extends View {
 	}
 	
 	public function render(): void {
+		$isLocal = $_SERVER['REMOTE_ADDR'] === '127.0.0.1';
+		
 		ob_start();
-		if($_SERVER['REMOTE_ADDR'] === '127.0.0.1') {
+		
+		if($isLocal) {
 			var_dump($GLOBALS);
 		}else {
 			var_dump([
@@ -23,9 +26,9 @@ class DebugView extends View {
 			]);
 		}
 		$dump = ob_get_clean();
-		$error = ob_get_contents();
+		
 		ob_end_clean();
 		
-		parent::renderView("<p>GLOBALS :</p>$dump<p>ERROR :</p>$error");
+		parent::renderView("<p>GLOBALS :</p>$dump");
 	}
 }
