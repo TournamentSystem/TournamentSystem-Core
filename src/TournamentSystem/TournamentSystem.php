@@ -56,6 +56,11 @@ class TournamentSystem {
 		global $_TS;
 		
 		if(session_exists()) {
+			if(!session_verify()) {
+				header('Location: /');
+				return;
+			}
+			
 			$stmt = new DbStatement([
 				'SELECT * FROM tournament_user WHERE name=?',
 				'SELECT * FROM tournament_permissions WHERE user=?'

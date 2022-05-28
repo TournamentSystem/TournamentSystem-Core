@@ -5,8 +5,13 @@ session_set_cookie_params([
 	'samesite' => 'strict'
 ]);
 
+
+function session_cookie_exists(): bool {
+	return isset($_COOKIE[session_name()]);
+}
+
 function session_exists(): bool {
-	if(!isset($_COOKIE[session_name()])) {
+	if(!session_cookie_exists()) {
 		return false;
 	}
 	
@@ -30,4 +35,23 @@ function session_stop(): void {
 	unset($options['lifetime']);
 	
 	setcookie(session_name(), '', $options);
+}
+
+function session_init($user): void {
+	$_SESSION['user'] = $user;
+	$_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
+}
+
+function session_verify(): bool {
+	if(md5($_SERVER['HTTP_USER_AGENT']) !== $_SESSION['user_agent']) {
+		goto stop_session;
+	}
+	
+	return true;
+	
+	stop_session: {
+		session_stop();
+		
+		return false;
+	}
 }

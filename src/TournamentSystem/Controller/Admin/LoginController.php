@@ -34,8 +34,10 @@ class LoginController extends Controller {
 				if(password_verify($_POST['password'], $hash)) {
 					$result->free();
 					
-					session_start();
-					$_SESSION['user'] = $username;
+					if(session_cookie_exists()) session_regenerate_id();
+					else session_start();
+					
+					session_init($username);
 					
 					return parent::SEE_OTHER('/admin/dashboard/');
 				}
