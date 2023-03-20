@@ -7,11 +7,22 @@
 			"email": "neo.hornberger@gmx.de"
 		}
 	],
+	"extra": {
+		"tournament_system": {
+			"type": "core",
+			"files": [
+				"resources",
+				"templates"
+			]
+		}
+	},
 	"require": {
 		"php": "^8",
+		"ext-ds": "*",
+		"php-ds/php-ds": "*",
 		"ext-mysqli": "*",
 		"latte/latte": "^3",
-		"twbs/bootstrap": "^5.1"
+		"twbs/bootstrap": "^5.2"
 	},
 	"autoload": {
 		"classmap": [

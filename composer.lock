@@ -4,32 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "071286d3b156afbe8997cf84870369a5",
+    "content-hash": "b23430081f723fd6b1fc2815339df8f8",
     "packages": [
         {
             "name": "latte/latte",
-            "version": "v3.0.0",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/latte.git",
-                "reference": "0a3f7fb3f930733c5cbc8d2f67943006d6ab2652"
+                "reference": "6f66dcfea7ad76f60b8234139161421e9e1e309f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/latte/zipball/0a3f7fb3f930733c5cbc8d2f67943006d6ab2652",
-                "reference": "0a3f7fb3f930733c5cbc8d2f67943006d6ab2652",
+                "url": "https://api.github.com/repos/nette/latte/zipball/6f66dcfea7ad76f60b8234139161421e9e1e309f",
+                "reference": "6f66dcfea7ad76f60b8234139161421e9e1e309f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-tokenizer": "*",
-                "php": ">=8.0 <8.2"
+                "php": ">=8.0 <8.3"
             },
             "conflict": {
-                "nette/application": "<2.4.1"
+                "nette/application": "<3.1.7",
+                "nette/caching": "<3.1.4"
             },
             "require-dev": {
-                "nette/php-generator": "^3.3.4",
+                "nette/php-generator": "^3.6 || ^4.0",
                 "nette/tester": "^2.0",
                 "nette/utils": "^3.0",
                 "phpstan/phpstan": "^1",
@@ -86,22 +87,77 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/latte/issues",
-                "source": "https://github.com/nette/latte/tree/v3.0.0"
+                "source": "https://github.com/nette/latte/tree/v3.0.6"
             },
-            "time": "2022-05-17T20:14:20+00:00"
+            "time": "2023-03-09T01:34:56+00:00"
         },
         {
-            "name": "twbs/bootstrap",
-            "version": "v5.1.3",
+            "name": "php-ds/php-ds",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "1a6fdfae6be09b09eaced8f0e442ca6f7680a61e"
+                "url": "https://github.com/php-ds/polyfill.git",
+                "reference": "43d2df301a9e2017f67b8c11d94a5222f9c00fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/1a6fdfae6be09b09eaced8f0e442ca6f7680a61e",
-                "reference": "1a6fdfae6be09b09eaced8f0e442ca6f7680a61e",
+                "url": "https://api.github.com/repos/php-ds/polyfill/zipball/43d2df301a9e2017f67b8c11d94a5222f9c00fd1",
+                "reference": "43d2df301a9e2017f67b8c11d94a5222f9c00fd1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.0"
+            },
+            "provide": {
+                "ext-ds": "1.3.0"
+            },
+            "require-dev": {
+                "php-ds/tests": "^1.3"
+            },
+            "suggest": {
+                "ext-ds": "to improve performance and reduce memory usage"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ds\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rudi Theunissen",
+                    "email": "rudolf.theunissen@gmail.com"
+                }
+            ],
+            "keywords": [
+                "data structures",
+                "ds",
+                "php",
+                "polyfill"
+            ],
+            "support": {
+                "issues": "https://github.com/php-ds/polyfill/issues",
+                "source": "https://github.com/php-ds/polyfill/tree/v1.4.1"
+            },
+            "time": "2022-03-09T20:39:30+00:00"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "v5.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "cb021439c683d9805e2864c58095b92d405e9b11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/cb021439c683d9805e2864c58095b92d405e9b11",
+                "reference": "cb021439c683d9805e2864c58095b92d405e9b11",
                 "shasum": ""
             },
             "replace": {
@@ -136,9 +192,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twbs/bootstrap/issues",
-                "source": "https://github.com/twbs/bootstrap/tree/v5.1.3"
+                "source": "https://github.com/twbs/bootstrap/tree/v5.2.3"
             },
-            "time": "2021-10-09T06:43:19+00:00"
+            "time": "2022-11-21T18:19:01+00:00"
         }
     ],
     "packages-dev": [],
@@ -149,6 +205,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^8",
+        "ext-ds": "*",
         "ext-mysqli": "*"
     },
     "platform-dev": [],
