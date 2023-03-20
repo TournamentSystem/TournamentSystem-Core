@@ -2,8 +2,13 @@
 
 namespace TournamentSystem\Model;
 
+use TournamentSystem\Database\Column;
+use TournamentSystem\Database\Inline;
+
+#[Inline('name')]
 class Permission {
-	private string $name;
+	#[Column(size: 64)]
+	public readonly string $name;
 	/**
 	 * @var string[] $parts
 	 */
@@ -23,10 +28,6 @@ class Permission {
 		}
 		
 		return true;
-	}
-	
-	public function getName(): string {
-		return $this->name;
 	}
 	
 	/**

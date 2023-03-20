@@ -2,13 +2,19 @@
 
 namespace TournamentSystem\Model;
 
+use TournamentSystem\Database\Column;
+use TournamentSystem\Database\Table;
+
+#[Table('name')]
 class User {
-	private string $name;
-	private string $password_hash;
+	#[Column(size: 32)]
+	public readonly string $name;
+	public readonly string $password_hash;
 	/**
 	 * @var Permission[] $permissions
 	 */
-	private array $permissions;
+	#[Column(arrayType: Permission::class)]
+	public readonly array $permissions;
 	
 	/**
 	 * @param string $name
@@ -41,20 +47,5 @@ class User {
 		}
 		
 		return Permission::checkPermissions($permissions, $this->permissions);
-	}
-	
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	public function getPasswordHash(): string {
-		return $this->password_hash;
-	}
-	
-	/**
-	 * @return Permission[]
-	 */
-	public function getPermissions(): array {
-		return $this->permissions;
 	}
 }

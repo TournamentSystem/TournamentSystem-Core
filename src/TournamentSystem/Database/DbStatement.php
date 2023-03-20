@@ -5,10 +5,9 @@ namespace TournamentSystem\Database;
 use ArrayAccess;
 use Exception;
 use mysqli_stmt;
+use TournamentSystem\TournamentSystem;
 
 class DbStatement implements ArrayAccess {
-	public static Database $db;
-	
 	/**
 	 * @var string[] $stmt
 	 */
@@ -38,7 +37,7 @@ class DbStatement implements ArrayAccess {
 	public function offsetGet(mixed $offset): ?mysqli_stmt {
 		if($this->offsetExists($offset)) {
 			if(!isset($this->cache[$offset])) {
-				$this->cache[$offset] = self::$db->prepare($this->stmt[$offset]);
+				$this->cache[$offset] = TournamentSystem::instance()->getDatabase()->prepare($this->stmt[$offset]);
 			}
 			
 			return $this->cache[$offset];

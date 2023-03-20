@@ -3,40 +3,25 @@
 namespace TournamentSystem\Model;
 
 use DateTime;
+use TournamentSystem\Database\Column;
+use TournamentSystem\Database\Table;
 
+#[Table('id')]
 class Person {
-	private int $id;
-	private string $firstname;
-	private string $name;
-	private DateTime $birthday;
-	private int $gender;
+	public readonly int $id;
+	#[Column(size: 128)]
+	public readonly string $firstname;
+	#[Column(size: 64)]
+	public readonly string $name;
+	public readonly DateTime $birthday;
+	public readonly Gender $gender;
 	
-	public function __construct(int $id, string $firstname, string $name, DateTime $birthday, int $gender) {
+	public function __construct(int $id, string $firstname, string $name, DateTime $birthday, Gender $gender) {
 		$this->id = $id;
 		$this->firstname = $firstname;
 		$this->name = $name;
 		$this->birthday = $birthday;
 		$this->gender = $gender;
-	}
-	
-	public function getId(): int {
-		return $this->id;
-	}
-	
-	public function getFirstname(): string {
-		return $this->firstname;
-	}
-	
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	public function getBirthday(): DateTime {
-		return $this->birthday;
-	}
-	
-	public function getGender(): int {
-		return $this->gender;
 	}
 	
 	public function getDisplayName(): string {
