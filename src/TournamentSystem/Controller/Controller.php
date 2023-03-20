@@ -18,6 +18,7 @@ abstract class Controller {
 	protected const SEE_OTHER = 303;
 	protected const TEMPORARY_REDIRECT = 307;
 	protected const PERMANENT_REDIRECT = 308;
+	protected const BAD_REQUEST = 400;
 	protected const UNAUTHORIZED = 401;
 	protected const FORBIDDEN = 403;
 	protected const NOT_FOUND = 404;
@@ -82,10 +83,18 @@ abstract class Controller {
 				}
 				
 				foreach($permissionRequired as $perm) {
-					if(!$perm->check()) {
+					if(!$perm->newInstance()->check()) {
 						http_response_code(self::FORBIDDEN);
 						return;
 					}
+				}
+			}
+			
+			$headersRequired = $reflectMethod->getAttributes(HttpHeaderRequired::class);
+			foreach($headersRequired as $headerRequired) {
+				if(!$headerRequired->newInstance()->check()) {
+					http_response_code(self::BAD_REQUEST);
+					return;
 				}
 			}
 		}catch(ReflectionException) {
