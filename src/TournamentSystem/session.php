@@ -44,14 +44,9 @@ function session_init($user): void {
 
 function session_verify(): bool {
 	if(md5($_SERVER['HTTP_USER_AGENT']) !== $_SESSION['user_agent']) {
-		goto stop_session;
+		session_stop();
+		return false;
 	}
 	
 	return true;
-	
-	stop_session: {
-		session_stop();
-		
-		return false;
-	}
 }
