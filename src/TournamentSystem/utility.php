@@ -18,3 +18,14 @@ if(!function_exists('str_ends_with')) {
 		return substr($haystack, -$length) === $needle;
 	}
 }
+
+if(!function_exists('array_is_list')) {
+	function array_is_list(array $array): bool {
+		return array_keys($array) === range(0, count($array) - 1);
+	}
+}
+function is_assoc(mixed $array): bool {
+	if(!is_array($array)) return false;
+	
+	return !array_is_list($array);
+}

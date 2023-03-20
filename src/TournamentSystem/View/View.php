@@ -2,16 +2,9 @@
 
 namespace TournamentSystem\View;
 
-use Latte\Engine;
-use Latte\RuntimeException;
-use ReflectionClass;
-use TournamentSystem\Config\Config;
-use TournamentSystem\LatteFilters;
+use TournamentSystem\TournamentSystem;
 
 abstract class View {
-	public static Engine $latte;
-	public static Config $config;
-	
 	protected string $title;
 	protected string $type;
 	
@@ -20,58 +13,29 @@ abstract class View {
 		$this->type = $type;
 	}
 	
-	protected final function renderView(?string $body = ''): void {
-		self::$latte->render(__DIR__ . '/../../../' . 'templates/base.latte', [
-			'title' => $this->title,
-			'head' => '',
-			'logo' => $this->getLogo(),
-			'type' => $this->type,
-			'body' => $body
-		]);
+	protected final function renderView(string $name, array $params = []): void {
+		$renderer = TournamentSystem::instance()->getRenderer();
+		
+		$renderer->baseParams['title'] = $this->title;
+		$renderer->baseParams['type'] = $this->type;
+		
+		$renderer->render($name, $params);
+	}
+	
+	protected final function renderHTML(string $body): void {
+		$renderer = TournamentSystem::instance()->getRenderer();
+		
+		$renderer->baseParams['title'] = $this->title;
+		$renderer->baseParams['type'] = $this->type;
+		
+		$renderer->renderBase($body);
 	}
 	
 	public function template(string $name, array $params = []): string {
-		$firstException = null;
+		$renderer = TournamentSystem::instance()->getRenderer();
 		
-		foreach([$this, self::class] as $context) {
-			try {
-				return self::getTemplate($context, $name, $params);
-			}catch(RuntimeException $e) {
-				if($firstException === null) {
-					$firstException = $e;
-				}
-			}
-		}
-		
-		throw $firstException;
-	}
-	
-	
-	public static function getTemplate(object|string $context, string $name, array $params = []): string {
-		global $_TS;
-		
-		$filters = new LatteFilters();
-		$filters->_TS = $_TS;
-		
-		foreach($params as $key => $value) {
-			$filters->$key = $value;
-		}
-		
-		$reflectContext = new ReflectionClass($context);
-		$levels = substr_count($reflectContext->getNamespaceName(), '\\') + 3;
-		
-		return self::$latte->renderToString(dirname($reflectContext->getFileName(), $levels) . "/templates/$name", $filters);
+		return $renderer->template($name, $params);
 	}
 	
 	public abstract function render(): void;
-	
-	private function getLogo(): string {
-		$logo = self::$config->general->logo;
-		
-		if(str_ends_with($logo, '.svg') && !str_starts_with($logo, 'http')) {
-			return file_get_contents(__ROOT__ . $logo);
-		}
-		
-		return "<img src='$logo' alt='Logo'/>";
-	}
 }

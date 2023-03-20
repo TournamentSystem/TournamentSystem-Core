@@ -11,6 +11,6 @@ class InstallView extends View {
 	}
 	
 	public function render(): void {
-		parent::renderView(parent::template('admin/install.latte'));
+		parent::renderView('templates/admin/install.latte');
 	}
 }

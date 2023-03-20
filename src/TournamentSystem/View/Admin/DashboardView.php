@@ -11,6 +11,6 @@ class DashboardView extends View {
 	}
 	
 	public function render(): void {
-		parent::renderView(parent::template('admin/dashboard.latte'));
+		parent::renderView('templates/admin/dashboard.latte');
 	}
 }

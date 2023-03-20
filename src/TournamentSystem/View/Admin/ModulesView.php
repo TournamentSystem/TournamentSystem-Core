@@ -21,8 +21,8 @@ class ModulesView extends View {
 	}
 	
 	public function render(): void {
-		parent::renderView(parent::template('admin/modules.latte', [
+		parent::renderView('templates/admin/modules.latte', [
 			'modules' => $this->modules
-		]));
+		]);
 	}
 }

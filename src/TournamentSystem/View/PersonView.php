@@ -7,7 +7,7 @@ use TournamentSystem\Model\Person;
 abstract class PersonView extends View {
 	
 	protected final function renderPerson(Person $person, string $body): void {
-		parent::renderView(parent::template('person.latte', [
+		parent::renderHTML(parent::template('templates/person.latte', [
 				'person' => $person
 			]) . $body);
 	}
