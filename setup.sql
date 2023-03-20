@@ -26,8 +26,9 @@ CREATE TABLE tournament_person (
     PRIMARY KEY (id)
 );
 CREATE TABLE tournament_modules (
-    name   VARCHAR(32) NOT NULL,
-    module VARCHAR(16) NOT NULL,
+    name     VARCHAR(32) NOT NULL,
+    module   VARCHAR(16) NOT NULL,
+    settings JSON,
 
     PRIMARY KEY (name)
 );

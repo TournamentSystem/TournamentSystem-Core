@@ -68,6 +68,14 @@ class ModulesController extends Controller {
 					$this->stmt[2]->execute();
 					
 					return self::get();
+				case 'settings':
+					if(!$_TS['user']->hasPermission(Permissions::MODULE_SETTINGS->value . '.' . $name)) {
+						return self::FORBIDDEN;
+					}
+					
+					//Module::load($name)->settings();
+					
+					return self::get();
 			}
 		}
 		

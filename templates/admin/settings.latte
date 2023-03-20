@@ -1,0 +1,61 @@
+{define input, $key, $value, $type, int $labelCol, int $col}
+	{if is_assoc($type)}
+		<button id="{$key}" class="col-{$col} btn" type="button" data-bs-toggle="collapse"
+				data-bs-target="#{$key}-value" aria-expanded="false" aria-controls="{$key}-value">
+			<hr/>
+		</button>
+		<div id="{$key}-value" class="collapse ps-4">
+			{foreach $value as $assoc_key => $assoc_value}
+				{include row, $key . '.' . $assoc_key, $assoc_value, $type[$assoc_key], $labelCol, $col}
+			{/foreach}
+		</div>
+	{elseif is_array($type)}
+		<button id="{$key}" class="col-{$col} btn" type="button" data-bs-toggle="collapse"
+				data-bs-target="#{$key}-value" aria-expanded="false" aria-controls="{$key}-value">
+			<hr/>
+		</button>
+		<div id="{$key}-value" class="collapse ps-4">
+			<div class="row">
+				<div class="col-{$labelCol} invisible pe-0"></div>
+				<ul class="list-group col-{$col}">
+					{foreach $value as $item}
+						{var int $i = $iterator->counter0}
+
+						<li class="list-group-item">
+							{include input, $key . '.' . $i, $item, $type[$i], 0, 11}
+							<button id="{$key}.{$i}-remove" class="btn btn-outline-danger btn-sm float-end"
+									type="button">
+								-
+							</button>
+						</li>
+					{/foreach}
+					<li class="list-group-item p-0">
+						<button id="{$key}-add" class="btn w-100 text-muted" type="button">+</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	{elseif $type === 'switch'}
+		<div class="form-switch col-{$col} ps-0">
+			<input id="{$key}" class="form-check-input ms-0 align-middle" type="checkbox" role="switch" name="{$key}"
+				   value="{$value}" {if $value}checked{/if}/>
+		</div>
+	{else}
+		<input id="{$key}" class="col-{$col}" type="{$type}" name="{$key}" value="{$value}"/>
+	{/if}
+{/define}
+{define row, $key, $value, $type, int $labelCol, int $col}
+	<div class="row gy-1">
+		<label class="col-{$labelCol} col-form-label font-monospace" for="{$key}">{$key}</label>
+
+		{include input, $key, $value, $type, $labelCol, $col}
+	</div>
+{/define}
+
+
+{var int $labelCol = 2}
+{var int $col = 11 - $labelCol}
+
+{foreach $settings as $key => $value}
+	{include row, $key, $value, $types[$key], $labelCol, $col}
+{/foreach}

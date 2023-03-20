@@ -4,15 +4,21 @@
 <div class="row gy-3">
 	{foreach $modules as $module}
 		<div class="col-md-3">
-			{var string $name = $module->getName()}
+			{var string $name = $module->name}
 
 			<div class="card">
-				<div class="card-body">
+				<a href="/{$name}/" class="card-body btn text-start">
 					<p class="card-title">{$name}</p>
-					<p class="card-text">{$module->getModule()}</p>
-				</div>
+					<p class="card-text">{$module->module}</p>
+				</a>
 				<div class="card-footer d-flex">
-					<a href="/{$name}/" class="btn btn-primary col-auto">Go to module</a>
+					<button class="btn btn-primary col-auto" type="button" data-bs-toggle="modal"
+							data-bs-target="#settings_module-{$name}"
+							data-ts-inject="#settings_module-{$name} .modal-body"
+							data-ts-inject-url="/admin/settings/?module={$name}"
+							n:if="$_TS['user']->hasPermission('admin.module.settings.' . $name)">
+						Settings
+					</button>
 					<button class="btn btn-outline-danger col-auto ms-auto" type="button" data-bs-toggle="modal"
 							data-bs-target="#delete_module-{$name}" n:if="$_TS['user']->hasPermission('admin.module.delete')">
 						Delete
@@ -20,8 +26,27 @@
 				</div>
 			</div>
 
-			<div id="delete_module-{$name}" class="modal fade" tabindex="-1"
-				 aria-hidden="true" n:if="$_TS['user']->hasPermission('admin.module.delete')">
+			<div id="settings_module-{$name}" class="modal fade" tabindex="-1" aria-hidden="true"
+					n:if="$_TS['user']->hasPermission('admin.module.settings.' . $name)">
+				<div class="modal-dialog modal-dialog-scrollable modal-xl">
+					<form class="modal-content" method="post">
+						<input type="hidden" name="action" value="settings"/>
+						<input type="hidden" name="name" value="{$name}">
+
+						<div class="modal-header bg-light">
+							<span class="modal-title fs-5">Settings</span>
+							<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body px-3 px-md-4 px-xl-5 row"></div>
+						<div class="modal-footer">
+							<button class="form-row btn btn-primary" type="submit" data-ts-btn-loading>Save</button>
+							<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div id="delete_module-{$name}" class="modal fade" tabindex="-1" aria-hidden="true"
+					n:if="$_TS['user']->hasPermission('admin.module.delete')">
 				<div class="modal-dialog">
 					<form class="modal-content" method="post">
 						<input type="hidden" name="action" value="delete"/>
