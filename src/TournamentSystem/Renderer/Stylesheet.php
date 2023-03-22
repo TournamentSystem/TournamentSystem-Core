@@ -3,7 +3,7 @@
 namespace TournamentSystem\Renderer;
 
 class Stylesheet extends LinkedFile {
-	
+
 	public function render(): string {
 		$html = '<link';
 		$html .= ' rel="stylesheet"';
@@ -11,7 +11,7 @@ class Stylesheet extends LinkedFile {
 		$html .= ' integrity="' . $this->getIntegrity() . '"';
 		$html .= ' crossorigin="' . $this->getCrossorigin() . '"';
 		$html .= '>';
-		
+
 		return $html;
 	}
 }

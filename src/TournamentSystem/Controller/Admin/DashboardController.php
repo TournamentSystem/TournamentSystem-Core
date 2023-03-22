@@ -7,11 +7,11 @@ use TournamentSystem\Controller\LoginRequired;
 use TournamentSystem\View\Admin\DashboardView;
 
 class DashboardController extends Controller {
-	
+
 	#[LoginRequired]
 	protected function get(): int {
 		parent::render(new DashboardView());
-		
+
 		return parent::OK;
 	}
 }

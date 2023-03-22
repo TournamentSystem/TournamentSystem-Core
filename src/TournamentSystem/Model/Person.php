@@ -15,7 +15,7 @@ class Person {
 	public readonly string $name;
 	public readonly DateTime $birthday;
 	public readonly Gender $gender;
-	
+
 	public function __construct(int $id, string $firstname, string $name, DateTime $birthday, Gender $gender) {
 		$this->id = $id;
 		$this->firstname = $firstname;
@@ -23,7 +23,7 @@ class Person {
 		$this->birthday = $birthday;
 		$this->gender = $gender;
 	}
-	
+
 	public function getDisplayName(): string {
 		return "$this->name, $this->firstname";
 	}

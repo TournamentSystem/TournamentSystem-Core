@@ -9,7 +9,7 @@ class ReferenceData implements Data {
 	public array $columns;
 	public TableData $refTable;
 	public KeyData $refKey;
-	
+
 	/**
 	 * @param ColumnData[] $columns
 	 */
@@ -18,7 +18,7 @@ class ReferenceData implements Data {
 		$this->refTable = $table;
 		$this->refKey = $table->primaryKey;
 	}
-	
+
 	public function creationString(): string {
 		$result = 'FOREIGN KEY (';
 		$result .= implode(', ', array_map(fn($col) => $col->name, $this->columns));
@@ -27,7 +27,7 @@ class ReferenceData implements Data {
 		$result .= ' (';
 		$result .= implode(', ', array_map(fn($col) => $col->name, $this->refKey->columns));
 		$result .= ') ON DELETE CASCADE';
-		
+
 		return $result;
 	}
 }

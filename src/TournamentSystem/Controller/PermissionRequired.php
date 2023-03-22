@@ -11,7 +11,7 @@ final class PermissionRequired {
 	 * @var Permission[] $permissions
 	 */
 	private array $permissions;
-	
+
 	/**
 	 * @param string|string[] $permission
 	 */
@@ -22,12 +22,12 @@ final class PermissionRequired {
 			$this->permissions[] = new Permission($permission);
 		}
 	}
-	
+
 	public function check(): bool {
 		if(!session_exists()) {
 			return false;
 		}
-		
+
 		global $_TS;
 		return $_TS['user']->hasPermissions($this->permissions);
 	}

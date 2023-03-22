@@ -12,7 +12,7 @@ class LatteRenderer {
 	 * @var HeadElement[]
 	 */
 	private array $headElements;
-	
+
 	/**
 	 * @var array<string, mixed>
 	 */
@@ -21,7 +21,7 @@ class LatteRenderer {
 	 * @var HeadElement[]
 	 */
 	public array $moduleHeadElements = [];
-	
+
 	/**
 	 * @param Engine $engine
 	 * @param string $base
@@ -32,24 +32,24 @@ class LatteRenderer {
 		$this->base = $base;
 		$this->headElements = $headElements;
 	}
-	
+
 	public function template(string $name, array $params = []): string {
 		global $_TS;
-		
+
 		$filters = new LatteFilters();
 		$filters->_TS = $_TS;
-		
+
 		foreach($params as $key => $value) {
 			$filters->$key = $value;
 		}
-		
+
 		return $this->engine->renderToString(__ROOT__ . "/$name", $filters);
 	}
-	
+
 	public function render(string $name, array $params = []): void {
 		$this->renderBase($this->template($name, $params));
 	}
-	
+
 	public function renderBase(?string $body = ''): void {
 		$this->engine->render(__ROOT__ . "/$this->base", [
 			...$this->baseParams,
@@ -57,11 +57,11 @@ class LatteRenderer {
 			'body' => $body
 		]);
 	}
-	
+
 	public function reset(): void {
 		$this->moduleHeadElements = [];
 	}
-	
+
 	public function getHeadElements(): HeadElements {
 		return new RendererElements([
 			...$this->headElements,

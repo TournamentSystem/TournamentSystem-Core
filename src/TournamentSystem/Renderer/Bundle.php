@@ -16,7 +16,7 @@ class Bundle extends HeadElements {
 	 * @var LinkedFile[]
 	 */
 	private array $others;
-	
+
 	/**
 	 * @param Stylesheet[] $styles
 	 * @param Script[] $scripts
@@ -28,10 +28,10 @@ class Bundle extends HeadElements {
 		$this->scripts = $scripts;
 		$this->others = $others;
 	}
-	
+
 	public function render(): string {
 		$html = '<!-- ' . $this->name . ' -->' . PHP_EOL;
-		
+
 		foreach($this->styles as $style) {
 			$html .= $style->render() . PHP_EOL;
 		}
@@ -41,35 +41,35 @@ class Bundle extends HeadElements {
 		foreach($this->others as $other) {
 			$html .= $other->render() . PHP_EOL;
 		}
-		
+
 		return $html;
 	}
-	
+
 	public function getName(): string {
 		return $this->name;
 	}
-	
+
 	/**
 	 * @return Stylesheet[]
 	 */
 	public function getStyles(): array {
 		return $this->styles;
 	}
-	
+
 	/**
 	 * @return Script[]
 	 */
 	public function getScripts(): array {
 		return $this->scripts;
 	}
-	
+
 	/**
 	 * @return LinkedFile[]
 	 */
 	public function getOthers(): array {
 		return $this->others;
 	}
-	
+
 	/**
 	 * @return HeadElement[]
 	 */

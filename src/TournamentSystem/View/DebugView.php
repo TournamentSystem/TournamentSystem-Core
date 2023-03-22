@@ -2,22 +2,18 @@
 
 namespace TournamentSystem\View;
 
-use TournamentSystem\Model\Module;
-use TournamentSystem\Model\Person;
-use TournamentSystem\Model\User;
 use TournamentSystem\TournamentSystem;
 
 class DebugView extends View {
-	
+
 	public function __construct() {
 		parent::__construct('Debug View', 'debug');
 	}
-	
+
 	public function render(): void {
 		$isLocal = $_SERVER['REMOTE_ADDR'] === '127.0.0.1';
-		
+
 		ob_start();
-		
 		if($isLocal) {
 			var_dump($GLOBALS);
 		}else {
