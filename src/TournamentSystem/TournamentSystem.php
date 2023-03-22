@@ -184,7 +184,7 @@ class TournamentSystem {
 
 					default => null
 				};
-			}else if($module !== 'none') {
+			}elseif($module !== 'none') {
 				$_TS['module'] = $module = Module::load($module) ?? $module;
 				$_TS['page'] = $page = explode('/', $_GET['_page'] ?? null);
 

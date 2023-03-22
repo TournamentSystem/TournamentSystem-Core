@@ -39,7 +39,7 @@ class User {
 	 * @param string[]|Permission[] $permissions
 	 */
 	public function hasPermissions(array $permissions): bool {
-		if(count($permissions) === 0) {
+		if(empty($permissions)) {
 			return true;
 		}
 		if(is_string($permissions[0])) {

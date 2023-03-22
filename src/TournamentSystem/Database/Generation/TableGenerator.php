@@ -163,7 +163,7 @@ class TableGenerator {
 			$typeClass = new ReflectionClass($type->getName());
 			$inlineAttrs = $typeClass->getAttributes(Inline::class);
 
-			if(count($inlineAttrs) !== 0) {
+			if(!empty($inlineAttrs)) {
 				$inlineProp = $typeClass->getProperty($inlineAttrs[0]->newInstance()->property);
 
 				$this->processProperty($table, $typeClass, $inlineProp, $name);
@@ -194,7 +194,7 @@ class TableGenerator {
 	private function columnTypeSize(?ReflectionProperty $property, int $default): int {
 		$attributes = $property?->getAttributes(Column::class);
 
-		if(count($attributes) === 0) {
+		if(empty($attributes)) {
 			return $default;
 		}
 
@@ -204,7 +204,7 @@ class TableGenerator {
 	private function columnArrayType(?ReflectionProperty $property, string $default = ''): string {
 		$attributes = $property?->getAttributes(Column::class);
 
-		if(count($attributes) === 0) {
+		if(empty($attributes)) {
 			return $default;
 		}
 
@@ -217,7 +217,7 @@ class TableGenerator {
 	private function tableInlinedProperty(ReflectionClass $class): ?ReflectionProperty {
 		$attributes = $class->getAttributes(Inline::class);
 
-		if(count($attributes) === 0) {
+		if(empty($attributes)) {
 			return null;
 		}
 
@@ -231,7 +231,7 @@ class TableGenerator {
 	private function fillTableKey(TableData $table, ReflectionClass $class): void {
 		$attributes = $class->getAttributes(Table::class);
 
-		if(count($attributes) === 0) {
+		if(empty($attributes)) {
 			return;
 		}
 
