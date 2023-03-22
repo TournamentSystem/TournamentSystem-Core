@@ -27,6 +27,7 @@ use TournamentSystem\Controller\Admin\UpdateController;
 use TournamentSystem\Database\Database;
 use TournamentSystem\Database\DbStatement;
 use TournamentSystem\Model\Permission;
+use TournamentSystem\Model\Person;
 use TournamentSystem\Model\User;
 use TournamentSystem\Module\Module;
 use TournamentSystem\Renderer\Bundle;
@@ -204,7 +205,13 @@ class TournamentSystem {
 		
 		$this->renderer->reset();
 	}
-	
+
+	public function postInstall(): void {
+		$this->database->createTable(User::class);
+		$this->database->createTable(Person::class);
+		$this->database->createTable(Model\Module::class);
+	}
+
 	public function getConfig(): Config {
 		return $this->config;
 	}

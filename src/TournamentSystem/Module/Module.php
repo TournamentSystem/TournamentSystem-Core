@@ -4,6 +4,7 @@ namespace TournamentSystem\Module;
 
 use ReflectionClass;
 use TournamentSystem\Controller\Controller;
+use TournamentSystem\Database\Database;
 use TournamentSystem\TournamentSystem;
 
 abstract class Module {
@@ -24,26 +25,21 @@ abstract class Module {
 	 * @param string[] $page
 	 */
 	public abstract function handle(array $page): ?Controller;
+
+	public abstract function initDatabase(Database $db): void;
+
+	public abstract function deinitDatabase(Database $db): void;
 	
 	public final function install(): void {
-		$db = TournamentSystem::instance()->getDatabase();
-		
-		$db->multi_query(file_get_contents($this->path . '/sql/create.sql'));
-		
-		while($db->more_results()) {
-			$db->next_result();
-		}
+		$this->initDatabase(TournamentSystem::instance()->getDatabase());
 	}
 	
 	public final function uninstall(): void {
 		$db = TournamentSystem::instance()->getDatabase();
 		
 		$db->query('SET FOREIGN_KEY_CHECKS = FALSE');
-		
-		$db->multi_query(file_get_contents($this->path . '/sql/drop.sql'));
-		while($db->more_results()) {
-			$db->next_result();
-		}
+
+		$this->deinitDatabase($db);
 		
 		$db->query('SET FOREIGN_KEY_CHECKS = TRUE');
 	}

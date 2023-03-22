@@ -2,6 +2,11 @@
 
 namespace TournamentSystem\View;
 
+use TournamentSystem\Model\Module;
+use TournamentSystem\Model\Person;
+use TournamentSystem\Model\User;
+use TournamentSystem\TournamentSystem;
+
 class DebugView extends View {
 	
 	public function __construct() {
@@ -26,9 +31,12 @@ class DebugView extends View {
 			]);
 		}
 		$dump = ob_get_clean();
-		
+
+		ob_start();
+		TournamentSystem::instance()->postInstall();
+		$sql = ob_get_clean();
+
 		ob_end_clean();
-		
-		parent::renderView("<p>GLOBALS :</p>$dump");
+		parent::renderHTML("<pre><code>$sql</code></pre><br/><p>GLOBALS :</p>$dump");
 	}
 }
