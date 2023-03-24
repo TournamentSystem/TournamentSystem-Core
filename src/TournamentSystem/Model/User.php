@@ -2,6 +2,8 @@
 
 namespace TournamentSystem\Model;
 
+use BackedEnum;
+use StringBackedEnum;
 use TournamentSystem\Database\Column;
 use TournamentSystem\Database\Table;
 
@@ -27,16 +29,21 @@ class User {
 		$this->permissions = $permissions;
 	}
 
-	public function hasPermission(string|Permission $permission): bool {
+	/**
+	 * @param string|Permission|StringBackedEnum $permission
+	 */
+	public function hasPermission(string|Permission|BackedEnum $permission): bool {
 		if(is_string($permission)) {
 			$permission = new Permission($permission);
+		}elseif($permission instanceof BackedEnum) {
+			$permission = new Permission($permission->value);
 		}
 
 		return Permission::checkPermissions([$permission], $this->permissions);
 	}
 
 	/**
-	 * @param string[]|Permission[] $permissions
+	 * @param string[]|Permission[]|StringBackedEnum[] $permissions
 	 */
 	public function hasPermissions(array $permissions): bool {
 		if(empty($permissions)) {
@@ -44,6 +51,9 @@ class User {
 		}
 		if(is_string($permissions[0])) {
 			$permissions = array_map(fn($s) => new Permission($s), $permissions);
+		}
+		if($permissions[0] instanceof BackedEnum) {
+			$permissions = array_map(fn($s) => new Permission($s->value), $permissions);
 		}
 
 		return Permission::checkPermissions($permissions, $this->permissions);
