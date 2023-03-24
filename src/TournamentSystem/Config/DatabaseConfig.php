@@ -2,9 +2,9 @@
 
 namespace TournamentSystem\Config;
 
-class DatabaseConfig {
-	public ?string $hostname = null;
-	public ?string $username = null;
+class DatabaseConfig extends ConfigJson {
+	public ?string $host = null;
+	public ?string $user = null;
 	public ?string $password = null;
 	public string $database = '';
 	public ?int $port = null;

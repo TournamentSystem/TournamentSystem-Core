@@ -12,7 +12,7 @@ use TournamentSystem\Database\Inline;
 use TournamentSystem\Database\Table;
 
 class TableGenerator {
-	private readonly string $prefix;
+	private readonly ?string $prefix;
 
 	/**
 	 * @var array<string, TableData>
@@ -20,7 +20,7 @@ class TableGenerator {
 	private array $result = [];
 	private Queue $queue;
 
-	public function __construct(string $prefix) {
+	public function __construct(?string $prefix) {
 		$this->prefix = $prefix;
 		$this->queue = new Queue();
 	}
@@ -239,6 +239,10 @@ class TableGenerator {
 	}
 
 	public function getTableName(ReflectionClass $class): string {
+		if($this->prefix === null) {
+			return $class->getShortName();
+		}
+
 		return $this->prefix . $class->getShortName();
 	}
 

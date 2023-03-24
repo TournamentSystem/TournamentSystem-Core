@@ -5,16 +5,16 @@ namespace TournamentSystem\Database;
 use mysqli;
 use ReflectionClass;
 use ReflectionException;
-use TournamentSystem\Config\Config;
+use TournamentSystem\Config\DatabaseConfig;
 use TournamentSystem\Database\Generation\TableGenerator;
 
 class Database extends mysqli {
-	private readonly string $prefix;
+	private readonly ?string $prefix;
 
-	public function __construct(Config $config) {
-		parent::__construct($config->database->hostname, $config->database->username, $config->database->password, $config->database->database, $config->database->port, $config->database->socket);
+	public function __construct(DatabaseConfig $config) {
+		parent::__construct($config->host, $config->user, $config->password, $config->database, $config->port, $config->socket);
 
-		$this->prefix = &$config->database->prefix;
+		$this->prefix = &$config->prefix;
 	}
 
 	/**

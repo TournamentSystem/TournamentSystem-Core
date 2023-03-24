@@ -16,7 +16,8 @@ require_once 'utility.php';
 require_once 'session.php';
 
 use Latte\Engine;
-use TournamentSystem\Config\Config;
+use TournamentSystem\Config\DatabaseConfig;
+use TournamentSystem\Config\GeneralConfig;
 use TournamentSystem\Controller\Admin\DashboardController;
 use TournamentSystem\Controller\Admin\InstallController;
 use TournamentSystem\Controller\Admin\LoginController;
@@ -39,13 +40,13 @@ use TournamentSystem\View\DebugView;
 class TournamentSystem {
 	private static TournamentSystem $INSTANCE;
 
-	private Config $config;
+	private GeneralConfig $config;
 	private Database $database;
 	private LatteRenderer $renderer;
 
 	private function __construct() {
-		$this->config = new Config('config.ini');
-		$this->database = new Database($this->config);
+		$this->config = new GeneralConfig('config/core.ini');
+		$this->database = new Database(new DatabaseConfig('config/database.json'));
 
 		$this->initRenderer();
 	}
@@ -88,7 +89,7 @@ class TournamentSystem {
 	}
 
 	private function getLogo(): string {
-		$logo = $this->config->general->logo;
+		$logo = $this->config->logo;
 
 		if(str_ends_with($logo, '.svg') && !str_starts_with($logo, 'http')) {
 			return file_get_contents(__ROOT__ . $logo);
@@ -212,7 +213,7 @@ class TournamentSystem {
 		$this->database->createTable(Model\Module::class);
 	}
 
-	public function getConfig(): Config {
+	public function getConfig(): GeneralConfig {
 		return $this->config;
 	}
 
